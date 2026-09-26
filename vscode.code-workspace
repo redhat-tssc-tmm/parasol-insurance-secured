@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"name": "parasol-insurance",
+			"path": "/projects/parasol-insurance"
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"redhat.vscode-yaml",
+			"ms-kubernetes-tools.vscode-kubernetes-tools",
+			"mhutchie.git-graph",
+			"eamodio.gitlens",
+			"streetsidesoftware.code-spell-checker",
+			"sst-dev.opencode",
+			"zoocodeorganization.zoo-code",
+			"cnshenj.vscode-task-manager",
+            "redhat.java",
+            "redhat.vscode-quarkus",
+           "redhat.fabric8-analytics"
+		]
+	},
+	"settings": {
+		"workbench.colorTheme": "Dark Modern",
+		"editor.wordWrap": "on",
+		"java.server.launchMode": "Standard",
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.compile.nullAnalysis.mode": "automatic",
+		"zoo-code.autoImportSettingsPath": "/projects/zoo-code-settings.json",
+		"chat.disableAIFeatures": true
+	}
+}

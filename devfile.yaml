@@ -1,0 +1,102 @@
+schemaVersion: 2.3.0
+metadata:
+  name: parasol-insurance-secured
+components:
+  - name: development-tooling
+    container:
+      image: image-registry.openshift-image-registry.svc:5000/workspace-images/parasol-insurance:latest
+      env:
+        - name: VSCODE_DEFAULT_WORKSPACE
+          value: "$(PROJECT_SOURCE)/vscode.code-workspace"
+        - name: QUARKUS_HTTP_HOST
+          value: 0.0.0.0
+        - name: MAVEN_OPTS
+          value: "-Dmaven.repo.local=/home/user/.m2/repository"
+        - name: DOCKER_HOST
+          value: unix:///tmp/podman.sock
+        - name: TESTCONTAINERS_RYUK_DISABLED
+          value: "true"
+        - name: QUARKUS_ANALYTICS_DISABLED
+          value: "true"
+      memoryLimit: 5Gi
+      cpuLimit: 2500m
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+      endpoints:
+        - name: quarkus-dev
+          targetPort: 8080
+          exposure: public
+          secure: false
+          protocol: https
+        - name: debug
+          targetPort: 5005
+          exposure: none
+          secure: false
+          protocol: tcp
+        - name: tests
+          targetPort: 8081
+          exposure: none
+          secure: false
+          protocol: tcp
+  - name: m2
+    volume:
+      size: 1G
+  - name: prep-workspace
+    container:
+      args:
+        - '-c'
+        - >-
+          mkdir -p /projects/.bin && cp /usr/bin/oc /projects/.bin/oc && cp /usr/bin/kubectl /projects/.bin/kubectl
+      command:
+        - /bin/bash
+      image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+      mountSources: true
+      sourceMapping: /projects
+      memoryRequest: 128Mi
+      memoryLimit: 256Mi
+      cpuRequest: 10m
+      cpuLimit: 200m
+      env:
+      - name: HOME
+        value: "/home/user"
+commands:
+  - apply:
+      component: prep-workspace
+      label: Pre Start Prep
+    id: prep-workspace
+  - id: package
+    exec:
+      label: "1. Package the application"
+      component: development-tooling
+      commandLine: "./mvnw package"
+      group:
+        kind: build
+        isDefault: true
+  - id: start-dev
+    exec:
+      label: "2. Start Development mode (Hot reload + debug)"
+      component: development-tooling
+      commandLine: "./mvnw compile quarkus:dev -Dquarkus.analytics.disabled=true"
+      group:
+        kind: run
+        isDefault: true
+  - id: init-podman-socket
+    exec:
+      label: "Start podman socket"
+      component: development-tooling
+      commandLine: |
+        podman system service --time=0 unix:///tmp/podman.sock &
+        sleep 2
+        if [ -S /tmp/podman.sock ]; then
+          echo "Podman socket ready"
+        else
+          echo "WARNING: Podman socket not created"
+        fi
+      group:
+        kind: build
+events:
+  postStart:
+    - init-podman-socket
+  preStart:
+    - prep-workspace

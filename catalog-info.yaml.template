@@ -1,0 +1,48 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "parasol-insurance-secured-{{user_guid}}"
+  title: Parasol Insurance (Secured)
+  description: Parasol Insurance Java application with secured pipeline
+  annotations:
+    argocd/app-selector: app.kubernetes.io/instance={{user_guid}}-parasol-insurance-secured
+    backstage.io/kubernetes-id: parasol-insurance-secured-{{user_guid}}
+    backstage.io/kubernetes-label-selector: "app.kubernetes.io/name=parasol-insurance-secured-{{user_guid}}"
+    janus-idp.io/tekton: parasol-insurance-secured
+    gitlab.com/project-slug: "{{user_guid}}/parasol-insurance-secured"
+    sonarqube.org/project-key: "parasol-insurance-secured-{{user_guid}}"
+  links:
+    - url: "https://devspaces.{{cluster_subdomain}}"
+      title: Dev Spaces
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/{{user_guid}}"
+  system: parasol-insurance-secured
+  providesApis:
+    - parasol-insurance-secured-api-{{user_guid}}
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: parasol-insurance-secured-api-{{user_guid}}
+  title: Parasol Insurance (Secured) API
+  description: REST API for managing insurance claims (secured pipeline)
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/{{user_guid}}"
+  system: parasol-insurance-secured
+  definition: |
+    openapi: "3.0.0"
+    info:
+      title: Parasol Insurance Claims API
+      version: "1.0"
+    paths:
+      /api/claims:
+        get:
+          summary: List all claims
+      /api/claims/{claimNumber}:
+        get:
+          summary: Get a claim by number
