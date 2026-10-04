@@ -1,4 +1,10 @@
 FROM registry.access.redhat.com/ubi9/openjdk-21-runtime:1.20
+# When initially conceived, this was a good and healthy JDK runtime image.
+# However, as a good practice for production applications, consider
+# moving to Red Hat Hardened Images as a foundational layer.
+# Check https://images.redhat.com/ for trusted, distroless, and micro-sized components
+
+# FROM registry.access.redhat.com/hi/openjdk:21-runtime
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 

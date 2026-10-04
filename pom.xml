@@ -14,6 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <!-- 3.17.5 is the version this has been built with. 
+         Time flies, so meanwhile a lot of direct and transitive vulnerabilities 
+         have been discovered 
+         Check https://quarkus.io/releases/ 
+         At the time of writing, 3.40.1 was the latest LTS release patch -->
         <quarkus.platform.version>3.17.5</quarkus.platform.version>
     </properties>
 
