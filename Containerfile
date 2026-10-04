@@ -15,6 +15,11 @@ COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
 
 EXPOSE 8080
 USER 185
+
+#ubi-jdk images use a script as an entrypoint, Hardened Images are distroless, so don't have a shell.
+#the explicit entrypoint includes the java tuning settings from the ubi-jdk image
+#but works across classic and hardened images
+
 ENTRYPOINT [ "java", \
   "-XX:MaxRAMPercentage=80.0", \
   "-XX:+UseParallelGC", \
