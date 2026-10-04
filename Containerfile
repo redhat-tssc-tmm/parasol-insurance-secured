@@ -15,8 +15,14 @@ COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
 
 EXPOSE 8080
 USER 185
-ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
-
-ENTRYPOINT [ "/bin/sh", "-c", \
-  "exec java -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError ${JAVA_OPTS_APPEND} -jar ${JAVA_APP_JAR}" ]
+ENTRYPOINT [ "java", \
+  "-XX:MaxRAMPercentage=80.0", \
+  "-XX:+UseParallelGC", \
+  "-XX:MinHeapFreeRatio=10", \
+  "-XX:MaxHeapFreeRatio=20", \
+  "-XX:GCTimeRatio=4", \
+  "-XX:AdaptiveSizePolicyWeight=90", \
+  "-XX:+ExitOnOutOfMemoryError", \
+  "-Dquarkus.http.host=0.0.0.0", \
+  "-Djava.util.logging.manager=org.jboss.logmanager.LogManager", \
+  "-jar", "/deployments/quarkus-run.jar" ]
