@@ -28,6 +28,7 @@
 		"java.configuration.updateBuildConfiguration": "automatic",
 		"java.compile.nullAnalysis.mode": "automatic",
 		"zoo-code.autoImportSettingsPath": "/projects/zoo-code-settings.json",
-		"chat.disableAIFeatures": true
+		"chat.disableAIFeatures": true,
+		"redHatDependencyAnalytics.backendUrl": "https://rhda-{{user_guid}}.{{cluster_subdomain}}"
 	}
 }
