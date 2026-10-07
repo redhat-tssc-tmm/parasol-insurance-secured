@@ -13,7 +13,7 @@ set -euo pipefail
 
 VERSION="${GITSIGN_CACHE_VERSION:-0.17.1}"
 BIN_DIR="${BIN_DIR:-$HOME/.local/bin}"
-CACHE_BIN="$BIN_DIR/gitsign-credential-cache"
+CACHE_BIN="$(command -v gitsign-credential-cache 2>/dev/null || echo "$BIN_DIR/gitsign-credential-cache")"
 WRAPPER="$BIN_DIR/gitsign-wrapper"
 
 # 1. Locate the real gitsign. Its absolute path is written into the wrapper,

@@ -9,7 +9,7 @@
 #   GITSIGN_CACHE_BIN      path to gitsign-credential-cache
 #   GITSIGN_OPEN_BROWSER   0 = do not open the login URL (default 1)
 #   GITSIGN_BELL_REPEAT    seconds between bells while waiting, 0 = ring once (default 3)
-DAEMON="${GITSIGN_CACHE_BIN:-$HOME/.local/bin/gitsign-credential-cache}"
+DAEMON="${GITSIGN_CACHE_BIN:-$(command -v gitsign-credential-cache || echo "$HOME/.local/bin/gitsign-credential-cache")}"
 OPEN="${GITSIGN_OPEN_BROWSER:-1}"
 REPEAT="${GITSIGN_BELL_REPEAT:-3}"
 MAX_BELLS=20
