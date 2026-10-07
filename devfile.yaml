@@ -101,6 +101,7 @@ commands:
       component: development-tooling
       commandLine: |
         SUBDOMAIN=$(oc get ingress.config.openshift.io cluster -o jsonpath='{.spec.domain}' 2>/dev/null) && \
+        sed -i "s|{{cluster_subdomain}}|${SUBDOMAIN}|g" ${PROJECT_SOURCE}/vscode.code-workspace && \
         git config --global gpg.format x509 && \
         git config --global gpg.x509.program gitsign && \
         git config --global commit.gpgsign true && \
