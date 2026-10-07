@@ -29,6 +29,24 @@
 		"java.compile.nullAnalysis.mode": "automatic",
 		"zoo-code.autoImportSettingsPath": "/projects/zoo-code-settings.json",
 		"chat.disableAIFeatures": true,
-		"redHatDependencyAnalytics.backendUrl": "https://rhda.{{cluster_subdomain}}"
+		"redHatDependencyAnalytics.backendUrl": "https://rhda.{{cluster_subdomain}}",
+		"terminal.integrated.enableVisualBell": true,
+		"terminal.integrated.bellDuration": 2000,
+		"accessibility.signals.terminalBell": { "sound": "on" },
+		"redHatDependencyAnalytics.imagePlatform": "linux/amd64"
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "gitsign login",
+				"type": "shell",
+				"command": "bash /usr/local/share/gitsign/gitsign-login.sh",
+				"isBackground": true,
+				"problemMatcher": [],
+				"presentation": { "reveal": "always", "panel": "dedicated", "focus": false },
+				"runOptions": { "runOn": "folderOpen" }
+			}
+		]
 	}
 }
