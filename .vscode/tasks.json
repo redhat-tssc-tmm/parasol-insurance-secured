@@ -4,7 +4,7 @@
     {
       "label": "gitsign login",
       "type": "shell",
-      "command": "bash ${workspaceFolder}/gitsign-login.sh",
+      "command": "bash /usr/local/share/gitsign/gitsign-login.sh",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "focus": false },
