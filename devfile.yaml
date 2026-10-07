@@ -108,9 +108,20 @@ commands:
         git config --global gitsign.issuer "https://sso.{{ cluster_subdomain }}/realms/sso" && \
         git config --global gitsign.clientID "trusted-artifact-signer" && \
         bash /usr/local/share/gitsign/setup-gitsign-cache.sh || true
+  - id: setup-registry-auth
+    exec:
+      label: "Configure container registry authentication"
+      component: development-tooling
+      commandLine: |
+        AUTH_DIR="$HOME/.config/containers"
+        mkdir -p "$AUTH_DIR"
+        oc get secret registry-auth -o jsonpath='{.data.auth\.json}' 2>/dev/null | base64 -d > "$AUTH_DIR/auth.json" && \
+        echo "Registry auth written to $AUTH_DIR/auth.json" || \
+        echo "WARNING: registry-auth secret not found — Containerfile scanning may not work for authenticated registries"
 events:
   postStart:
     - init-podman-socket
     - setup-gitsign
+    - setup-registry-auth
   preStart:
     - prep-workspace

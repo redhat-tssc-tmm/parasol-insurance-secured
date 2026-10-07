@@ -1,5 +1,6 @@
 {
   "terminal.integrated.enableVisualBell": true,
   "terminal.integrated.bellDuration": 2000,
-  "accessibility.signals.terminalBell": { "sound": "on" }
+  "accessibility.signals.terminalBell": { "sound": "on" },
+  "redHatDependencyAnalytics.imagePlatform": "linux/amd64"
 }
