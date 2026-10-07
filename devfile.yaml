@@ -100,12 +100,13 @@ commands:
       label: "Configure git commit signing (gitsign)"
       component: development-tooling
       commandLine: |
+        SUBDOMAIN=$(oc get ingress.config.openshift.io cluster -o jsonpath='{.spec.domain}' 2>/dev/null) && \
         git config --global gpg.format x509 && \
         git config --global gpg.x509.program gitsign && \
         git config --global commit.gpgsign true && \
-        git config --global gitsign.fulcio "https://fulcio-server-trusted-artifact-signer.{{ cluster_subdomain }}" && \
-        git config --global gitsign.rekor "https://rekor-server-trusted-artifact-signer.{{ cluster_subdomain }}" && \
-        git config --global gitsign.issuer "https://sso.{{ cluster_subdomain }}/realms/sso" && \
+        git config --global gitsign.fulcio "https://fulcio-server-trusted-artifact-signer.${SUBDOMAIN}" && \
+        git config --global gitsign.rekor "https://rekor-server-trusted-artifact-signer.${SUBDOMAIN}" && \
+        git config --global gitsign.issuer "https://sso.${SUBDOMAIN}/realms/sso" && \
         git config --global gitsign.clientID "trusted-artifact-signer" && \
         bash ${PROJECT_SOURCE}/setup-gitsign-cache.sh || true
 events:
