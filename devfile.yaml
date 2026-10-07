@@ -115,9 +115,13 @@ commands:
       commandLine: |
         AUTH_DIR="$HOME/.config/containers"
         mkdir -p "$AUTH_DIR"
-        oc get secret registry-auth -o jsonpath='{.data.auth\.json}' 2>/dev/null | base64 -d > "$AUTH_DIR/auth.json" && \
-        echo "Registry auth written to $AUTH_DIR/auth.json" || \
-        echo "WARNING: registry-auth secret not found — Containerfile scanning may not work for authenticated registries"
+        AUTH_DATA=$(oc get secret registry-auth -o jsonpath='{.data.auth\.json}' 2>/dev/null | base64 -d)
+        if [ -n "$AUTH_DATA" ] && echo "$AUTH_DATA" | python3 -c "import json,sys; json.load(sys.stdin)" 2>/dev/null; then
+          echo "$AUTH_DATA" > "$AUTH_DIR/auth.json"
+          echo "Registry auth written to $AUTH_DIR/auth.json"
+        else
+          echo "registry-auth secret not found or empty — Containerfile scanning will use unauthenticated access"
+        fi
 events:
   postStart:
     - init-podman-socket
