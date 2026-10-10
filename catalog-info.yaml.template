@@ -15,6 +15,9 @@ metadata:
     - url: "https://devspaces.{{cluster_subdomain}}"
       title: Dev Spaces
       icon: web
+    - url: "https://parasol-approval.{{cluster_subdomain}}"
+      title: Release Approval
+      icon: email
 spec:
   type: service
   lifecycle: production
