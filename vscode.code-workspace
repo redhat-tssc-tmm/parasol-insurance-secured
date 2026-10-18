@@ -18,7 +18,8 @@
 			"cnshenj.vscode-task-manager",
             "redhat.java",
             "redhat.vscode-quarkus",
-           "redhat.fabric8-analytics"
+           "redhat.fabric8-analytics",
+           "redhat.vscode-xml"
 		]
 	},
 	"settings": {
